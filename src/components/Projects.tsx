@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaGithub, FaExternalLinkAlt, FaReact, FaHtml5, FaCss3Alt, FaJava, FaNodeJs } from 'react-icons/fa';
-import { SiJavascript, SiFlutter, SiTypescript, SiTailwindcss, SiRedux, SiMongodb, SiFirebase, SiDart } from 'react-icons/si';
+import { FaExternalLinkAlt, FaReact, FaHtml5, FaCss3Alt, FaJava, FaNodeJs, FaYoutube, FaMicrophone } from 'react-icons/fa';
+import { SiJavascript, SiFlutter, SiTypescript, SiTailwindcss, SiRedux, SiMongodb, SiFirebase, SiDart, SiTensorflow } from 'react-icons/si';
 import IconWrapper from './IconWrapper';
 
 const ProjectsSection = styled.section`
@@ -278,6 +278,13 @@ const getTechIcon = (tech: string) => {
       return <IconWrapper icon={SiFirebase} />;
     case 'dart':
       return <IconWrapper icon={SiDart} />;
+    case 'ai/ml':
+    case 'ai':
+    case 'ml':
+      return <IconWrapper icon={SiTensorflow} />;
+    case 'speech recognition':
+    case 'speech':
+      return <IconWrapper icon={FaMicrophone} />;
     default:
       return tech.charAt(0).toUpperCase();
   }
@@ -287,33 +294,25 @@ const getTechIcon = (tech: string) => {
 const projectsData = [
   {
     id: 1,
-    title: 'E-Commerce Website',
-    description: 'A fully responsive e-commerce website with product filtering, cart functionality, and user authentication.',
-    image: 'https://via.placeholder.com/350x200?text=E-Commerce+Website',
-    tech: ['React', 'Redux', 'Node.js', 'MongoDB'],
+    title: 'PolyglAI - CMS',
+    description: 'A comprehensive pronunciation assessment platform with AI-powered speech recognition and error detection. Features a web-based CMS for content management and a mobile app for 5-language pronunciation practice with precise scoring and multilingual support.',
+    image: require('../assets/polyglai-thumbnail.png'),
+    tech: ['React', 'TypeScript', 'Node.js', 'AI/ML', 'Speech Recognition'],
     github: '#',
-    live: '#',
+    live: 'https://drive.google.com/file/d/1tsheo4XEKD4XzJvlhOGUttwq0moQTtwT/view?usp=sharing',
     category: 'web',
+    hasVideo: true,
   },
   {
     id: 2,
-    title: 'Task Management App',
-    description: 'A mobile application for managing tasks, with features like task categories, reminders, and progress tracking.',
-    image: 'https://via.placeholder.com/350x200?text=Task+Management+App',
-    tech: ['Flutter', 'Firebase', 'Dart'],
+    title: 'PolyglAI - Pronunciation Assessment App',
+    description: 'A comprehensive pronunciation assessment platform with AI-powered speech recognition and error detection. Features a web-based CMS for content management and a mobile app for 5-language pronunciation practice with precise scoring and multilingual support.',
+    image: require('../assets/polyglai-mobile.png'),
+    tech: ['Flutter', 'Dart', 'AI/ML', 'Speech Recognition'],
     github: '#',
-    live: '#',
+    live: 'https://drive.google.com/file/d/1brzoy1apyxnmgsyMAhLWY6c1AVLkR755/view?usp=sharing',
     category: 'mobile',
-  },
-  {
-    id: 3,
-    title: 'Portfolio Website',
-    description: 'A minimalist portfolio website with dark mode support, animations, and responsive design.',
-    image: 'https://via.placeholder.com/350x200?text=Portfolio+Website',
-    tech: ['React', 'TypeScript', 'Tailwind'],
-    github: '#',
-    live: '#',
-    category: 'web',
+    hasVideo: true,
   },
 ];
 
@@ -387,13 +386,9 @@ const Projects: React.FC = () => {
                   ))}
                 </ProjectTech>
                 <ProjectLinks>
-                  <ProjectLink href={project.github} target="_blank" rel="noopener noreferrer">
-                    <IconWrapper icon={FaGithub} />
-                    <ProjectLinkText>Source Code</ProjectLinkText>
-                  </ProjectLink>
                   <ProjectLink href={project.live} target="_blank" rel="noopener noreferrer">
-                    <IconWrapper icon={FaExternalLinkAlt} />
-                    <ProjectLinkText>Live Demo</ProjectLinkText>
+                    <IconWrapper icon={project.hasVideo ? FaYoutube : FaExternalLinkAlt} />
+                    <ProjectLinkText>{project.hasVideo ? 'Video Demo' : 'Live Demo'}</ProjectLinkText>
                   </ProjectLink>
                 </ProjectLinks>
               </ProjectContent>

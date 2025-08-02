@@ -83,18 +83,6 @@ const Footer: React.FC = () => {
           <FooterLink href="#contact">Contact</FooterLink>
         </FooterLinks>
         
-        <SocialLinks>
-          <SocialLink href="#" target="_blank" rel="noopener noreferrer">
-            <IconWrapper icon={FaGithub} />
-          </SocialLink>
-          <SocialLink href="#" target="_blank" rel="noopener noreferrer">
-            <IconWrapper icon={FaLinkedin} />
-          </SocialLink>
-          <SocialLink href="#" target="_blank" rel="noopener noreferrer">
-            <IconWrapper icon={FaTwitter} />
-          </SocialLink>
-        </SocialLinks>
-        
         <Copyright>
           &copy; {currentYear} John Lloyd Andalajao. All rights reserved.
         </Copyright>

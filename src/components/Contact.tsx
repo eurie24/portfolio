@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin } from 'react-icons/fa';
 import IconWrapper from './IconWrapper';
+import emailjs from '@emailjs/browser';
 
 const ContactSection = styled.section`
   padding: 8rem 2rem;
@@ -158,34 +159,38 @@ const fadeInUp = {
 };
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prevData => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const form = useRef<HTMLFormElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission (e.g., send email or API call)
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      subject: '',
-      message: '',
-    });
-    // Show success message or notification
-    alert('Thank you for your message! I will get back to you soon.');
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    // EmailJS configuration
+    // EmailJS configuration
+    const serviceId = 'service_eeqc7vo';
+    const templateId = 'template_weozmws';
+    const publicKey = 'q9VXmVKm6Z3j7w1xF';
+
+    if (form.current) {
+      emailjs.sendForm(serviceId, templateId, form.current, publicKey)
+        .then((result) => {
+          console.log('SUCCESS!', result.text);
+          setSubmitStatus('success');
+          if (form.current) {
+            form.current.reset();
+          }
+        })
+        .catch((error) => {
+          console.log('FAILED...', error.text);
+          setSubmitStatus('error');
+        })
+        .finally(() => {
+          setIsSubmitting(false);
+        });
+    }
   };
 
   return (
@@ -217,7 +222,7 @@ const Contact: React.FC = () => {
               </ContactIcon>
               <ContactText>
                 <ContactTitle>Email</ContactTitle>
-                <ContactValue>john.andalajao@example.com</ContactValue>
+                <ContactValue>work.lloyd24@gmail.com</ContactValue>
               </ContactText>
             </ContactInfoItem>
             
@@ -233,7 +238,7 @@ const Contact: React.FC = () => {
               </ContactIcon>
               <ContactText>
                 <ContactTitle>Phone</ContactTitle>
-                <ContactValue>+63 912 345 6789</ContactValue>
+                <ContactValue>+63 905 697 3556</ContactValue>
               </ContactText>
             </ContactInfoItem>
             
@@ -249,7 +254,7 @@ const Contact: React.FC = () => {
               </ContactIcon>
               <ContactText>
                 <ContactTitle>Location</ContactTitle>
-                <ContactValue>Manila, Philippines</ContactValue>
+                <ContactValue>Cavite, Philippines</ContactValue>
               </ContactText>
             </ContactInfoItem>
             
@@ -260,22 +265,25 @@ const Contact: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.4 }}
               variants={fadeInUp}
             >
-              <SocialLink href="#" target="_blank" rel="noopener noreferrer">
+              <SocialLink href="https://github.com/eurie24" target="_blank" rel="noopener noreferrer">
                 <IconWrapper icon={FaGithub} />
               </SocialLink>
-              <SocialLink href="#" target="_blank" rel="noopener noreferrer">
+              <SocialLink href="https://www.linkedin.com/in/john-lloyd-a-6396b513a" target="_blank" rel="noopener noreferrer">
                 <IconWrapper icon={FaLinkedin} />
               </SocialLink>
             </SocialLinks>
           </ContactInfo>
           
           <ContactForm
+            ref={form}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
             variants={fadeInUp}
             onSubmit={handleSubmit}
+            data-netlify="true"
+            name="contact"
           >
             <FormGroup>
               <Label htmlFor="name">Name</Label>
@@ -283,8 +291,6 @@ const Contact: React.FC = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={formData.name}
-                onChange={handleChange}
                 required
               />
             </FormGroup>
@@ -295,8 +301,6 @@ const Contact: React.FC = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={formData.email}
-                onChange={handleChange}
                 required
               />
             </FormGroup>
@@ -307,8 +311,6 @@ const Contact: React.FC = () => {
                 type="text"
                 id="subject"
                 name="subject"
-                value={formData.subject}
-                onChange={handleChange}
                 required
               />
             </FormGroup>
@@ -318,13 +320,28 @@ const Contact: React.FC = () => {
               <TextArea
                 id="message"
                 name="message"
-                value={formData.message}
-                onChange={handleChange}
                 required
               />
             </FormGroup>
             
-            <SubmitButton type="submit">Send Message</SubmitButton>
+            {/* Hidden input for time */}
+            <input type="hidden" name="time" value={new Date().toLocaleString()} />
+            
+            <SubmitButton type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </SubmitButton>
+            
+            {submitStatus === 'success' && (
+              <div style={{ color: 'green', marginTop: '1rem' }}>
+                Message sent successfully! I'll get back to you soon.
+              </div>
+            )}
+            
+            {submitStatus === 'error' && (
+              <div style={{ color: 'red', marginTop: '1rem' }}>
+                Failed to send message. Please try again or contact me directly.
+              </div>
+            )}
           </ContactForm>
         </ContactContent>
       </ContactContainer>

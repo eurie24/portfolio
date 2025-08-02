@@ -130,33 +130,9 @@ const About: React.FC = () => {
               transition={{ duration: 0.5, delay: 0.3 }}
               variants={fadeInUp}
             >
-              My interest in web development started back when I was in high school, where I first learned HTML & CSS. Fast forward to today, I've had the privilege to study and work on various projects that have helped me improve my skills.
+              My interest in web development started back when I was in college, where I first learned HTML & CSS. Fast forward to today, I've had the privilege to study and work on various projects that have helped me improve my skills.
             </AboutParagraph>
             
-            <AboutParagraph
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              variants={fadeInUp}
-            >
-              Here are a few technologies I've been working with recently:
-            </AboutParagraph>
-            
-            <AboutList
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-              variants={fadeInUp}
-            >
-              <AboutListItem>JavaScript (ES6+)</AboutListItem>
-              <AboutListItem>React.js</AboutListItem>
-              <AboutListItem>HTML & CSS</AboutListItem>
-              <AboutListItem>Flutter</AboutListItem>
-              <AboutListItem>Java</AboutListItem>
-              <AboutListItem>Figma</AboutListItem>
-            </AboutList>
             
             <AboutParagraph
               initial="hidden"
