@@ -2,6 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import { FaGithub, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import IconWrapper from './IconWrapper';
+import { useTheme } from '../context/ThemeContext';
+import logoWhite from '../logo_white.svg';
+import logoDark from '../logo_dark.svg';
 
 const FooterContainer = styled.footer`
   background-color: var(--bg-secondary);
@@ -18,9 +21,14 @@ const FooterContent = styled.div`
 `;
 
 const FooterLogo = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
   margin-bottom: 1rem;
+  
+  img {
+    height: 35px;
+    width: auto;
+  }
 `;
 
 const FooterLinks = styled.div`
@@ -68,12 +76,18 @@ const Copyright = styled.p`
 `;
 
 const Footer: React.FC = () => {
+  const { theme } = useTheme();
   const currentYear = new Date().getFullYear();
   
   return (
     <FooterContainer>
       <FooterContent>
-        <FooterLogo>JL</FooterLogo>
+        <FooterLogo>
+          <img 
+            src={theme === 'light' ? logoWhite : logoDark} 
+            alt="John Lloyd Andalajao" 
+          />
+        </FooterLogo>
         
         <FooterLinks>
           <FooterLink href="#home">Home</FooterLink>

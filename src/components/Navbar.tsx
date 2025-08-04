@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useTheme } from '../context/ThemeContext';
 import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
 import IconWrapper from './IconWrapper';
+import logoWhite from '../logo_white.svg';
+import logoDark from '../logo_dark.svg';
 
 const NavbarContainer = styled.nav`
   position: fixed;
@@ -24,9 +26,13 @@ const NavContent = styled.div`
 `;
 
 const Logo = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  
+  img {
+    height: 40px;
+    width: auto;
+  }
 `;
 
 const NavLinks = styled.div<{ isOpen: boolean }>`
@@ -191,7 +197,12 @@ const Navbar: React.FC = () => {
       transition: 'background-color 0.3s, box-shadow 0.3s'
     }}>
       <NavContent>
-        <Logo>JL</Logo>
+        <Logo>
+          <img 
+            src={theme === 'light' ? logoWhite : logoDark} 
+            alt="John Lloyd Andalajao" 
+          />
+        </Logo>
         
         <MenuButton onClick={toggleMenu} aria-label={isMenuOpen ? "Close menu" : "Open menu"}>
           <MenuIconWrapper isOpen={isMenuOpen}>
